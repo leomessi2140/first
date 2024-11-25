@@ -1,0 +1,41 @@
+name: Auto Tag on Commit
+
+on:
+  push:
+    branches:
+      - main  # Trigger for master branch (or choose your branch)
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Git
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+    
+    - name: Fetch latest tags
+      run: git fetch --tags
+
+    - name: Auto create tag based on commit message
+      run: |
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        echo "Commit Message: $COMMIT_MESSAGE"
+
+        if [[ "$COMMIT_MESSAGE" == CHORE* ]]; then
+          TAG="v1.0.0"
+        elif [[ "$COMMIT_MESSAGE" == FEA* ]]; then
+          TAG="v0.1.0"
+        elif [[ "$COMMIT_MESSAGE" == FIX* ]]; then
+          TAG="v0.0.1"
+        else
+          TAG="v0.0.0"
+        fi
+
+        echo "Tagging as: $TAG"
+        git tag $TAG
+        git push origin $TAG
