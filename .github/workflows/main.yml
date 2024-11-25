@@ -3,7 +3,7 @@ name: Auto Tag on Commit
 on:
   push:
     branches:
-      - main  # Trigger for master branch (or choose your branch)
+      - master  # Trigger for master branch (or choose your branch)
 
 jobs:
   tag:
@@ -39,6 +39,6 @@ jobs:
         echo "Tagging as: $TAG"
         git tag $TAG
 
-        # Use GITHUB_TOKEN to authenticate and push the tag
-        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        # Use the token added in GitHub secrets
+        git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
         git push origin $TAG
