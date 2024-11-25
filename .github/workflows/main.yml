@@ -38,4 +38,7 @@ jobs:
 
         echo "Tagging as: $TAG"
         git tag $TAG
+
+        # Use GITHUB_TOKEN to authenticate and push the tag
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         git push origin $TAG
