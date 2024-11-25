@@ -3,7 +3,7 @@ name: Auto Tag on Commit
 on:
   push:
     branches:
-      - master  # Trigger for master branch (or choose your branch)
+      - main  # Trigger for master branch (or choose your branch)
 
 jobs:
   tag:
